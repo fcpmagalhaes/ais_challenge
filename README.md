@@ -5,7 +5,7 @@ Challenge provided by AIS Digital company to a back-end develloper job vacancy
 This project contains the following module:
  - API (Node.js)
 
-   A system that is requested by a client to get info about movies. Internaly, the system requests the movie details and translations from [TMDB API](https://www.themoviedb.org/ , save the datas in DB and than return to the client the response with data or error message if the movie isn't found. JWT authentication is used to provide access and ExpressJS is our framework.
+   A system that is requested by a client to get info about movies. Internaly, the system requests the movie details and translations from [TMDB API](https://www.themoviedb.org/), save the datas in DB and than return to the client the response with data or error message if the movie isn't found. JWT authentication is used to provide access and ExpressJS is our framework.
 
 ### ⚙ API Instalation
 
