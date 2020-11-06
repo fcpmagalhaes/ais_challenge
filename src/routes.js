@@ -2,6 +2,7 @@ const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 
 const UserController = require('./controllers/UserController');
+const SessionController = require('./controllers/SessionController');
 const login = require('./middleware/Login');
 const adminVerify = require('./middleware/AdminVerify');
 
@@ -28,6 +29,11 @@ routes.post(
     }),
   }),
   UserController.create,
+);
+
+routes.post(
+  '/sessions',
+  SessionController.create,
 );
 
 module.exports = routes;
