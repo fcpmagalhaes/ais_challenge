@@ -10,6 +10,17 @@ const routes = express.Router();
 
 routes.get('/', (req, res) => res.send('API running 🚀'));
 
+routes.post(
+  '/user',
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      login: Joi.string().required(),
+      password: Joi.string().required().length(6),
+    }),
+  }),
+  UserController.create,
+);
+
 routes.get(
   '/users',
   celebrate({
@@ -21,18 +32,7 @@ routes.get(
 );
 
 routes.post(
-  '/users',
-  celebrate({
-    [Segments.BODY]: Joi.object().keys({
-      login: Joi.string().required(),
-      password: Joi.string().required().length(6),
-    }),
-  }),
-  UserController.create,
-);
-
-routes.post(
-  '/sessions',
+  '/session',
   SessionController.create,
 );
 
