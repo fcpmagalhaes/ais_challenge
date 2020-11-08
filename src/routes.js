@@ -3,6 +3,8 @@ const { celebrate, Segments, Joi } = require('celebrate');
 
 const UserController = require('./controllers/UserController');
 const SessionController = require('./controllers/SessionController');
+const MovieController = require('./controllers/MovieController');
+const TranslationController = require('./controllers/TranslationController');
 const login = require('./middleware/Login');
 const adminVerify = require('./middleware/AdminVerify');
 
@@ -34,6 +36,32 @@ routes.get(
 routes.post(
   '/session',
   SessionController.create,
+);
+
+routes.get(
+  '/movie/:id',
+  celebrate({
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().required(),
+    }),
+  }),
+  login, MovieController.index,
+);
+
+routes.get(
+  '/translation/:id',
+  celebrate({
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+    [Segments.PARAMS]: Joi.object().keys({
+      id: Joi.number().required(),
+    }),
+  }),
+  login, TranslationController.index,
 );
 
 module.exports = routes;
