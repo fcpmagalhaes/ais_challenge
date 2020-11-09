@@ -9,7 +9,7 @@ exports.up = function (knex) {
     table.string('original_language');
     table.string('original_title');
     table.string('overview');
-    table.number('popularity');
+    table.decimal('popularity');
     table.string('poster_path');
     table.string('release_date');
     table.integer('revenue');
@@ -18,11 +18,9 @@ exports.up = function (knex) {
     table.string('tagline');
     table.string('title');
     table.boolean('video');
-    table.number('vote_average');
+    table.decimal('vote_average');
     table.integer('vote_count');
-
     table.integer('belongs_to_collection');
-    table.foreign('belongs_to_collection').references('id').inTable('colections');
   });
 };
 
