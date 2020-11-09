@@ -38,12 +38,8 @@ npm start
 
 It will run the app in the development mode. Open [http://localhost:3333](http://localhost:33333) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
-***📖  Documentation:***
-
-> Our API is documentated usig OpenApi3/Swagger. Like Postman, but on steroids, all required and not required parameters are already set, there are examples to easily see what you can use in the request, and responses are described to understand what we are getting from the server. Try it out [http://localhost:3333/api-docs](http://localhost:33333/api-docs)
-
 
 Using some API Testing Tools as Postman or Insomnia, its possible access the end-points. There you can create a user, init a session, and get the moovie informations that you want. 
 
 
-With this file 👉 "Desafio AIS API.postman_collection.json" you can load all our collection quickly. After create a session, copy you token auth to the global variable token. It will allow you play with us 🎢
+With this file 👉 "Desafio API AIS.postman_collection.json" you can load all our collection quickly. After create a session, copy you token auth to the global variable token. It will allow you play with us 🎢
