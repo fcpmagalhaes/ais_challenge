@@ -6,7 +6,7 @@ exports.up = function (knex) {
     table.string('name');
     table.string('english_name');
     table.string('homepage');
-    table.string('overview');
+    table.text('overview');
     table.integer('runtime');
     table.string('tagline');
     table.string('title');

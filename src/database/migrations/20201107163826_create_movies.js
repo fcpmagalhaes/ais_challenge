@@ -8,7 +8,7 @@ exports.up = function (knex) {
     table.string('imdb_id');
     table.string('original_language');
     table.string('original_title');
-    table.string('overview');
+    table.text('overview');
     table.decimal('popularity');
     table.string('poster_path');
     table.string('release_date');

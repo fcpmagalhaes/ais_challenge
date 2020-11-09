@@ -4,9 +4,6 @@ exports.up = function (knex) {
     table.string('name');
     table.string('poster_path');
     table.string('backdrop_path');
-
-    table.integer('id_movie');
-    table.foreign('id_movie').references('id').inTable('movies');
   });
 };
 
