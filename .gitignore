@@ -10,3 +10,5 @@
 .DS_Store
 /database/db.sqlite3
 .env
+
+/data
