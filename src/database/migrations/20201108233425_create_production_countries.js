@@ -1,9 +1,8 @@
 exports.up = function (knex) {
   return knex.schema.createTable('production_countries', (table) => {
-    table.integer('id').primary();
-    table.string('logo_path');
+    table.increments('id').primary();
+    table.string('iso_3166_1');
     table.string('name');
-    table.string('origin_country');
   });
 };
 

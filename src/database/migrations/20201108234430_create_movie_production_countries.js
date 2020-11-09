@@ -1,6 +1,6 @@
 exports.up = function (knex) {
   return knex.schema.createTable('movie_production_countries', (table) => {
-    table.integer('id').primary();
+    table.increments('id').primary();
     table.integer('id_production_country');
     table.integer('id_movie');
 
