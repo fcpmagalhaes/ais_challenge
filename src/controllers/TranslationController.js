@@ -8,61 +8,93 @@ function apiGetTranslation(id) {
   };
   return tmdbInstance.get(`/movie/${id}/translations`, { params });
 }
+
+async function recordTranslationInDb(translations) {
+  const { id, translations: translationsData } = translations;
+
+  translationsData.forEach(async (translation) => {
+    try {
+      const {
+        iso_3166_1,
+        iso_639_1,
+        name,
+        english_name,
+        data,
+      } = translation;
+
+      const {
+        homepage,
+        overview,
+        runtime,
+        tagline,
+        title,
+      } = data;
+
+      const movie = await connection('movies')
+        .where('id', id)
+        .select('*')
+        .first();
+
+      if (movie) {
+        await connection('translations').insert({
+          iso_3166_1,
+          iso_639_1,
+          name,
+          english_name,
+          homepage,
+          overview,
+          runtime,
+          tagline,
+          title,
+          id_movie: id,
+        });
+      } else {
+        // To do: refact to prevent violates foreign key constraint error
+        console.log('Necessary exist id in table movie before save translations.');
+      }
+    } catch (error) {
+      console.log('Error saving translations in database', error);
+    }
+  });
+}
+
 module.exports = {
   async index(req, res) {
     const { id } = req.params;
     try {
-      const translation = await connection('translations')
+      const idMovie = await connection('translations')
         .where('id_movie', id)
-        .select('*')
+        .select('id_movie')
         .first();
 
-      if (!translation) {
+      if (!idMovie) {
         try {
           const { data } = await apiGetTranslation(id);
-          // recordMovieInDb(data);
+          recordTranslationInDb(data);
           return res.status(200).send(data);
         } catch (error) {
           if (error.response) {
             const { status_message } = error.response.data;
             return res.status(error.response.status).json({ message: `${status_message}` });
           }
-          return res.status(500).json({ error: 'Error loading movie' });
+          return res.status(500).json({ error: 'Error loading translations' });
         }
       }
 
-      // if (movie.belongs_to_collection) {
-      //   const belongs_to_collection = await connection('collections')
-      //     .where('id', movie.belongs_to_collection)
-      //     .select('*');
-      //   movie.belongs_to_collection = belongs_to_collection;
-      // }
-
-      // const genres = await connection('movie_genres')
-      //   .where('id_movie', movie.id)
-      //   .innerJoin('genres', 'genres.id', 'movie_genres.id_genre')
-      //   .select('genres.id', 'genres.name');
-
-      // const production_companies = await connection('movie_production_companies')
-      //   .where('id_movie', movie.id)
-      //   .innerJoin('production_companies', 'production_companies.id', 'movie_production_companies.id_production_company')
-      //   .select('production_companies.*');
-
-      // const production_countries = await connection('movie_production_countries')
-      //   .where('id_movie', movie.id)
-      //   .innerJoin('production_countries', 'production_countries.id', 'movie_production_countries.id_production_country')
-      //   .select('production_countries.*');
-
-      // const spoken_languages = await connection('movie_spoken_languages')
-      //   .where('id_movie', movie.id)
-      //   .innerJoin('spoken_languages', 'spoken_languages.id', 'movie_spoken_languages.id_spoken_language')
-      //   .select('spoken_languages.*');
-
-      // movie.genres = genres;
-      // movie.production_companies = production_companies;
-      // movie.production_countries = production_countries;
-      // movie.spoken_languages = spoken_languages;
-      return res.status(200).send(translation);
+      const translations = await connection('translations')
+        .where('id_movie', id)
+        .select(
+          'iso_3166_1',
+          'iso_639_1',
+          'name',
+          'english_name',
+          'homepage',
+          'overview',
+          'runtime',
+          'tagline',
+          'title',
+        );
+      return res.status(200).send({ id, translations });
     } catch (error) {
       return res.status(500).json({ error: 'Error loading translation' });
     }
